@@ -194,6 +194,9 @@
     <failBuildOnDuplicates>true</failBuildOnDuplicates>
     <failBuildOnDependencyVersionProblem>true</failBuildOnDependencyVersionProblem>
     <failBuildOnDependencyProblem>true</failBuildOnDependencyProblem>
+    <sign.keyFile></sign.keyFile>
+    <sign.keyPass></sign.keyPass>
+    <sign.skip>false</sign.skip>
   </properties>
 
   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -402,6 +405,11 @@
               </goals>
             </execution>
           </executions>
+          <configuration>
+            <keyFile>${sign.keyFile}</keyFile>
+            <keyPass>${sign.keyPass}</keyPass>
+            <skip>${sign.skip}</skip>
+          </configuration>
         </plugin>
 
         <plugin>
