@@ -1,0 +1,4 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: maven-parent
+Upstream-Contact: Sebastian Hoß <seb@hoß.de>
+Source: https://github.com/metio/maven-parent
