@@ -13,7 +13,6 @@ Parent POM for Maven based Java projects.
 Declare this project as a parent in your projects:
 
 ```xml
-  <!-- for early prototypes -->
   <parent>
     <groupId>wtf.metio.maven</groupId>
     <artifactId>maven-parents</artifactId>
