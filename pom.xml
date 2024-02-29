@@ -143,7 +143,7 @@
 
     <!-- version declarations -->
     <version.sign-m-p>1.1.0</version.sign-m-p>
-    <version.central-publishing-m-p>0.3.0</version.central-publishing-m-p>
+    <version.central-publishing-m-p>0.3.1</version.central-publishing-m-p>
     <version.m-enforcer-p>3.4.1</version.m-enforcer-p>
     <version.versions-m-p>2.16.2</version.versions-m-p>
     <version.m-artifact-p>3.5.0</version.m-artifact-p>
@@ -178,7 +178,7 @@
     <version.m-antrun-p>3.1.0</version.m-antrun-p>
     <version.properties-m-p>1.2.1</version.properties-m-p>
     <version.cyclonedx-m-p>2.7.11</version.cyclonedx-m-p>
-    <version.spdx-m-p>0.7.2</version.spdx-m-p>
+    <version.spdx-m-p>0.7.3</version.spdx-m-p>
     <version.buildplan-m-p>1.5</version.buildplan-m-p>
     
     <!-- tool configurations -->
