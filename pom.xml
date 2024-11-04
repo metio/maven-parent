@@ -153,7 +153,7 @@
     <version.m-jar-p>3.4.2</version.m-jar-p>
     <version.m-resource-p>3.3.1</version.m-resource-p>
     <version.m-clean-p>3.4.0</version.m-clean-p>
-    <version.m-surefire-p>3.5.1</version.m-surefire-p>
+    <version.m-surefire-p>3.5.2</version.m-surefire-p>
     <version.m-compiler-p>3.13.0</version.m-compiler-p>
     <version.m-source-p>3.3.1</version.m-source-p>
     <version.pitest-m-p>1.17.0</version.pitest-m-p>
