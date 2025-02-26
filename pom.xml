@@ -162,7 +162,7 @@
     <version.jacoco-m-p>0.8.12</version.jacoco-m-p>
     <version.dependency-check-m>12.1.0</version.dependency-check-m>
     <version.m-dependency-p>3.8.1</version.m-dependency-p>
-    <version.flatten-m-p>1.6.0</version.flatten-m-p>
+    <version.flatten-m-p>1.7.0</version.flatten-m-p>
     <version.templating-m-p>3.0.0</version.templating-m-p>
     <version.native-image-m-p>21.2.0</version.native-image-m-p>
     <version.native-m-p>0.10.5</version.native-m-p>
