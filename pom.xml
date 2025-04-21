@@ -178,7 +178,7 @@
     <version.m-antrun-p>3.1.0</version.m-antrun-p>
     <version.properties-m-p>1.2.1</version.properties-m-p>
     <version.cyclonedx-m-p>2.9.1</version.cyclonedx-m-p>
-    <version.spdx-m-p>0.7.4</version.spdx-m-p>
+    <version.spdx-m-p>1.0.0</version.spdx-m-p>
     <version.buildplan-m-p>1.5</version.buildplan-m-p>
     
     <!-- tool configurations -->
