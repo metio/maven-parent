@@ -5,8 +5,7 @@ SPDX-License-Identifier: 0BSD
 
 # maven-parent [![Chat](https://img.shields.io/badge/irc.libera.chat-%23metio-blue.svg)](irc://irc.libera.chat/#metio)
 
-Parent POM for Maven based Java projects.
-
+Parent POM for Maven-based Java projects.
 
 ## Usage
 
