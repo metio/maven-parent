@@ -3,7 +3,7 @@ SPDX-FileCopyrightText: The maven-parent Authors
 SPDX-License-Identifier: 0BSD
  -->
 
-# maven-parent [![Chat](https://img.shields.io/badge/%23metio-brightgreen.svg?style=social&label=IRC)](irc://irc.libera.chat:6697/#metio)
+# maven-parent [![Chat](https://img.shields.io/badge/irc.libera.chat-%23metio-blue.svg)](irc://irc.libera.chat/#metio)
 
 Parent POM for Maven based Java projects.
 
