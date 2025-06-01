@@ -15,7 +15,7 @@ Declare this project as a parent in your projects:
 ```xml
   <parent>
     <groupId>wtf.metio.maven</groupId>
-    <artifactId>maven-parents</artifactId>
+    <artifactId>maven-parent</artifactId>
     <version>${version.parent}</version>
   </parent>
 ```
