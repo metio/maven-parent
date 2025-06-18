@@ -143,7 +143,7 @@
 
     <!-- version declarations -->
     <version.sign-m-p>1.1.0</version.sign-m-p>
-    <version.central-publishing-m-p>0.7.0</version.central-publishing-m-p>
+    <version.central-publishing-m-p>0.8.0</version.central-publishing-m-p>
     <version.m-enforcer-p>3.5.0</version.m-enforcer-p>
     <version.versions-m-p>2.18.0</version.versions-m-p>
     <version.m-artifact-p>3.6.0</version.m-artifact-p>
