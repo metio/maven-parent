@@ -175,7 +175,7 @@
     <version.build-helper-m-p>3.6.1</version.build-helper-m-p>
     <version.jmh-m-p>1.0.3</version.jmh-m-p>
     <version.spotbugs-m-p>4.9.8.1</version.spotbugs-m-p>
-    <version.m-antrun-p>3.1.0</version.m-antrun-p>
+    <version.m-antrun-p>3.2.0</version.m-antrun-p>
     <version.properties-m-p>1.2.1</version.properties-m-p>
     <version.cyclonedx-m-p>2.9.1</version.cyclonedx-m-p>
     <version.spdx-m-p>1.0.3</version.spdx-m-p>
