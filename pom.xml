@@ -145,7 +145,7 @@
     <version.sign-m-p>1.1.0</version.sign-m-p>
     <version.central-publishing-m-p>0.9.0</version.central-publishing-m-p>
     <version.m-enforcer-p>3.6.2</version.m-enforcer-p>
-    <version.versions-m-p>2.19.1</version.versions-m-p>
+    <version.versions-m-p>2.20.0</version.versions-m-p>
     <version.m-artifact-p>3.6.1</version.m-artifact-p>
     <version.m-pmd-p>3.28.0</version.m-pmd-p>
     <version.m-javadoc-p>3.12.0</version.m-javadoc-p>
