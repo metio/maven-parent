@@ -171,7 +171,7 @@
     <version.checksum-m-p>1.11</version.checksum-m-p>
     <version.exec-m-p>3.6.2</version.exec-m-p>
     <version.asciidoctor-m-p>3.2.0</version.asciidoctor-m-p>
-    <version.editorconfig-m-p>0.1.17</version.editorconfig-m-p>
+    <version.editorconfig-m-p>0.2.0</version.editorconfig-m-p>
     <version.build-helper-m-p>3.6.1</version.build-helper-m-p>
     <version.jmh-m-p>1.0.3</version.jmh-m-p>
     <version.spotbugs-m-p>4.9.8.2</version.spotbugs-m-p>
