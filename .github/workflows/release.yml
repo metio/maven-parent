@@ -39,12 +39,12 @@ jobs:
         with:
           fetch-depth: 0 # needs-release reads tags and history
       - id: gate
-        uses: metio/ci/needs-release@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+        uses: metio/ci/needs-release@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
         with:
           paths: pom.xml
       - id: quota
         if: steps.gate.outputs.needed == 'true'
-        uses: metio/ci/central-quota@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+        uses: metio/ci/central-quota@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
 
   release:
     needs: [gate]
@@ -62,7 +62,7 @@ jobs:
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: maven-${{ runner.os }}-
       - id: version
-        uses: metio/ci/calver@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+        uses: metio/ci/calver@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
       - name: Set release version
         env:
           VERSION: ${{ steps.version.outputs.version }}
@@ -104,7 +104,7 @@ jobs:
           deploy
       - id: notes
         name: Generate release notes
-        uses: metio/ci/release-notes@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+        uses: metio/ci/release-notes@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
         with:
           version: ${{ steps.version.outputs.version }}
           previous: ${{ needs.gate.outputs.last }}

@@ -13,7 +13,7 @@ jobs:
     # so its checks read "Maven / build", "Maven / javadoc". This POM has no
     # Java sources of its own, so the javadoc gate has nothing to render.
     name: Maven
-    uses: metio/ci/.github/workflows/maven.yml@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+    uses: metio/ci/.github/workflows/maven.yml@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
     with:
       javadoc: false
   reuse:
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           fetch-depth: 0
-      - uses: metio/ci/dco@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+      - uses: metio/ci/dco@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
   policy:
     # metio org workflow conventions (conftest/Rego from metio/ci): SHA-pinned
     # uses refs, top-level permissions, timeout-minutes on every job, no
@@ -73,7 +73,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-      - uses: metio/ci/policy-check@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+      - uses: metio/ci/policy-check@cccdc57315bb36043c4054f30ca2f11bacd62d9a # 2026.7.26080346
   verify:
     # Single required check covering every job above: mark only this one
     # required in branch protection and new jobs are covered automatically.
