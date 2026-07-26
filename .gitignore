@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: The maven-parent Authors
+# SPDX-License-Identifier: 0BSD
+
+target/
+result
+result-*

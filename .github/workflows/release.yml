@@ -1,0 +1,101 @@
+# SPDX-FileCopyrightText: The maven-parent Authors
+# SPDX-License-Identifier: 0BSD
+
+name: Release
+
+# Calendar-versioned release to Maven Central. The weekly run no-ops unless the
+# POM changed since the last release, so a quiet week cuts no version. Maven and
+# the JDK come from the flake devShell, and the version, the notes, and the
+# release gate come from the shared metio/ci actions.
+on:
+  schedule:
+    - cron: 15 1 * * FRI
+  workflow_dispatch:
+
+permissions:
+  contents: write # create the tag and the release
+
+# Serialize runs: needs-release reads the previous tag before this run creates
+# its own, so two runs in flight would emit overlapping notes. Queue (never
+# cancel) so the earlier run tags first.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0 # needs-release and the notes read tags and history
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/.m2/repository
+          key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-${{ runner.os }}-
+      - id: gate
+        uses: metio/ci/needs-release@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+        with:
+          paths: pom.xml
+      - id: version
+        if: steps.gate.outputs.needed == 'true'
+        uses: metio/ci/calver@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+      - name: Set release version
+        if: steps.gate.outputs.needed == 'true'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: >
+          nix develop --command mvn --batch-mode --no-transfer-progress
+          --define newVersion="$VERSION"
+          --define generateBackupPoms=false
+          versions:set
+      - name: Write signing key and Central credentials
+        if: steps.gate.outputs.needed == 'true'
+        env:
+          GPG_SECRET_KEY_BASE64: ${{ secrets.GPG_SECRET_KEY_BASE64 }}
+        run: |
+          echo "$GPG_SECRET_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/signing.key.asc"
+          # The POM publishes through server id "central"; the credentials are
+          # read from the environment at deploy time so no secret is written to
+          # the settings file itself.
+          cat > "$RUNNER_TEMP/settings.xml" <<'XML'
+          <settings>
+            <servers>
+              <server>
+                <id>central</id>
+                <username>${env.MAVEN_CENTRAL_USERNAME}</username>
+                <password>${env.MAVEN_CENTRAL_TOKEN}</password>
+              </server>
+            </servers>
+          </settings>
+          XML
+      - name: Publish to Maven Central
+        if: steps.gate.outputs.needed == 'true'
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          SIGN_KEY_PASS: ${{ secrets.GPG_SECRET_KEY_PASSWORD }}
+        run: >
+          nix develop --command mvn --batch-mode --no-transfer-progress
+          --settings "$RUNNER_TEMP/settings.xml"
+          --activate-profiles release
+          --define sign.keyFile="$RUNNER_TEMP/signing.key.asc"
+          --define sign.keyPass="$SIGN_KEY_PASS"
+          deploy
+      - id: notes
+        name: Generate release notes
+        if: steps.gate.outputs.needed == 'true'
+        uses: metio/ci/release-notes@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+        with:
+          version: ${{ steps.version.outputs.version }}
+          previous: ${{ steps.gate.outputs.last }}
+      - name: Create release
+        if: steps.gate.outputs.needed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          NOTES: ${{ steps.notes.outputs.file }}
+        run: gh release create "$VERSION" --target "$GITHUB_SHA" --notes-file "$NOTES" --title "$VERSION"

@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: The maven-parent Authors
+# SPDX-License-Identifier: 0BSD
+
+version = 1
+SPDX-PackageName = "maven-parent"
+SPDX-PackageSupplier = "Sebastian Hoß <seb@xn--ho-hia.de>"
+SPDX-PackageDownloadLocation = "https://github.com/metio/maven-parent"
+
+# JSON carries no comment syntax; flake.lock is nix-generated JSON and
+# renovate.json follows Renovate's fixed schema.
+[[annotations]]
+path = ["renovate.json", "flake.lock"]
+precedence = "override"
+SPDX-FileCopyrightText = "The maven-parent Authors"
+SPDX-License-Identifier = "0BSD"

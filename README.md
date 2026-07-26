@@ -18,3 +18,22 @@ Declare this project as a parent in your projects:
     <version>${version.parent}</version>
   </parent>
 ```
+
+## Development
+
+The toolchain is a [nix flake](flake.nix) — JDK and Maven come from `flake.lock`,
+so a local run and CI resolve the same versions:
+
+```shell
+nix develop --command mvn verify
+```
+
+The shared lint gate (`ci-reuse`, `ci-yaml`, `ci-actionlint`, `ci-markdown`,
+`ci-typos`) rides in the same shell. CI runs the build through
+[`metio/ci`](https://github.com/metio/ci)'s reusable Maven pipeline, and every
+job through this flake's devShell.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Every commit needs a `Signed-off-by`
+trailer (`git commit --signoff`); the DCO gate enforces it.

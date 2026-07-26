@@ -7,7 +7,7 @@ SPDX-License-Identifier: 0BSD
 
 Thank you so much for helping out! This project uses a [DCO](https://developercertificate.org/) to verify that each change is legally acceptable. Its text is as follows:
 
-```
+```text
 By making a contribution to this project, I certify that:
 
 (a) The contribution was created in whole or in part by me and I

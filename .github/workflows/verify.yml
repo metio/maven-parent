@@ -1,16 +1,91 @@
 # SPDX-FileCopyrightText: The maven-parent Authors
 # SPDX-License-Identifier: 0BSD
 
-name: Verify Commits
+name: Verify
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
+permissions:
+  contents: read
 jobs:
-  verify:
+  maven:
+    # Reusable Maven pipeline shared across the metio JVM repos. Named "Maven"
+    # so its checks read "Maven / build", "Maven / javadoc". This POM has no
+    # Java sources of its own, so the javadoc gate has nothing to render.
+    name: Maven
+    uses: metio/ci/.github/workflows/maven.yml@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+    with:
+      javadoc: false
+  reuse:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Clone Git Repository
-        uses: actions/checkout@v7
-      - uses: ./.github/actions/managed-java
-      - name: Build with Maven
-        run: mvn --batch-mode verify
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - run: nix develop --command ci-reuse
+  yaml:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - run: nix develop --command ci-yaml
+  github-actions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      # shellcheck rides in the devShell, so actionlint lints run: blocks too.
+      - run: nix develop --command ci-actionlint
+  markdown:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - run: nix develop --command ci-markdown
+  typos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - run: nix develop --command ci-typos
+  dco:
+    # Developer Certificate of Origin: every commit must carry a Signed-off-by
+    # trailer. Skipped for bot-authored PRs (Renovate cannot sign off); a
+    # skipped job still satisfies the all-green gate below.
+    if: github.event.pull_request.user.type != 'Bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0
+      - uses: metio/ci/dco@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+  policy:
+    # metio org workflow conventions (conftest/Rego from metio/ci): SHA-pinned
+    # uses refs, top-level permissions, timeout-minutes on every job, no
+    # untrusted ${{ github.event.* }} interpolation in run: blocks, and — since
+    # this repo ships a flake.nix — every tool coming from the devShell.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+      - uses: metio/ci/policy-check@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+  verify:
+    # Single required check covering every job above: mark only this one
+    # required in branch protection and new jobs are covered automatically.
+    name: Verify
+    needs: [maven, reuse, yaml, github-actions, markdown, typos, dco, policy]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify every job succeeded or skipped
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          bad=$(echo "$NEEDS" | jq -r 'to_entries[] | select(.value.result != "success" and .value.result != "skipped") | "\(.key)=\(.value.result)"')
+          [ -z "$bad" ] || { echo "::error::$bad"; exit 1; }
