@@ -3,13 +3,16 @@
 
 name: Release
 
-# Calendar-versioned release to Maven Central. The weekly run no-ops unless the
-# POM changed since the last release, so a quiet week cuts no version. Maven and
-# the JDK come from the flake devShell, and the version, the notes, and the
-# release gate come from the shared metio/ci actions.
+# Calendar-versioned release to Maven Central, on this repo's monthly slot (the
+# 1st — the parent POM releases before the projects that inherit it, so their
+# own slots later in the month already see it). Two gates guard the deploy: the
+# POM must have changed since the last release, and the organization's shared
+# Maven Central budget must have room. A skipped month costs nothing and loses
+# nothing — the gate measures against the last release, not the last run, so the
+# pending changes ride the next slot.
 on:
   schedule:
-    - cron: 15 1 * * FRI
+    - cron: 15 1 1 * *
   workflow_dispatch:
 
 permissions:
@@ -23,28 +26,44 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  gate:
+    # Both questions answered before any build work: did the POM change, and is
+    # there room in the org's monthly Maven Central budget?
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      release: ${{ steps.gate.outputs.needed == 'true' && steps.quota.outputs.available == 'true' }}
+      last: ${{ steps.gate.outputs.last }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          fetch-depth: 0 # needs-release reads tags and history
+      - id: gate
+        uses: metio/ci/needs-release@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+        with:
+          paths: pom.xml
+      - id: quota
+        if: steps.gate.outputs.needed == 'true'
+        uses: metio/ci/central-quota@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
+
   release:
+    needs: [gate]
+    if: needs.gate.outputs.release == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
-          fetch-depth: 0 # needs-release and the notes read tags and history
+          fetch-depth: 0 # the notes read tags and history
       - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: ~/.m2/repository
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: maven-${{ runner.os }}-
-      - id: gate
-        uses: metio/ci/needs-release@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
-        with:
-          paths: pom.xml
       - id: version
-        if: steps.gate.outputs.needed == 'true'
-        uses: metio/ci/calver@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+        uses: metio/ci/calver@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
       - name: Set release version
-        if: steps.gate.outputs.needed == 'true'
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: >
@@ -53,7 +72,6 @@ jobs:
           --define generateBackupPoms=false
           versions:set
       - name: Write signing key and Central credentials
-        if: steps.gate.outputs.needed == 'true'
         env:
           GPG_SECRET_KEY_BASE64: ${{ secrets.GPG_SECRET_KEY_BASE64 }}
         run: |
@@ -73,7 +91,6 @@ jobs:
           </settings>
           XML
       - name: Publish to Maven Central
-        if: steps.gate.outputs.needed == 'true'
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
@@ -87,13 +104,13 @@ jobs:
           deploy
       - id: notes
         name: Generate release notes
-        if: steps.gate.outputs.needed == 'true'
-        uses: metio/ci/release-notes@4a3b325cb28721c03e36d67c1ef8bb71a5b9b11d # feat/maven-pipeline
+        uses: metio/ci/release-notes@b88993b16040980c3df5e9ec1d1b1fc27a5fcc62 # feat/maven-pipeline
         with:
           version: ${{ steps.version.outputs.version }}
-          previous: ${{ steps.gate.outputs.last }}
+          previous: ${{ needs.gate.outputs.last }}
+      # The GitHub release is what central-quota counts, so it is created only
+      # after the deploy succeeded — a failed publish must not consume budget.
       - name: Create release
-        if: steps.gate.outputs.needed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
