@@ -35,5 +35,6 @@ job through this flake's devShell.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Every commit needs a `Signed-off-by`
-trailer (`git commit --signoff`); the DCO gate enforces it.
+See the org-wide [contributor guide](https://github.com/metio/.github/blob/main/CONTRIBUTING.md).
+Every commit needs a `Signed-off-by` trailer (`git commit --signoff`); the DCO
+gate enforces it.
