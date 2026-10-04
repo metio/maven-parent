@@ -13,7 +13,7 @@ jobs:
     # so its checks read "Maven / build", "Maven / javadoc". This POM has no
     # Java sources of its own, so the javadoc gate has nothing to render.
     name: Maven
-    uses: metio/ci/.github/workflows/maven.yml@3529dd5a30dd5739b2d80c2acc8882a951760b53 # 2026.8.22144013
+    uses: metio/ci/.github/workflows/maven.yml@03a3682906e5fcfac66ff2ccae9a34241b453dc4 # 2026.9.29150349
     with:
       javadoc: false
   reuse:
@@ -21,21 +21,21 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
       - run: nix develop --command ci-reuse
   yaml:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
       - run: nix develop --command ci-yaml
   github-actions:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
       # shellcheck rides in the devShell, so actionlint lints run: blocks too.
       - run: nix develop --command ci-actionlint
   markdown:
@@ -43,14 +43,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
       - run: nix develop --command ci-markdown
   typos:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@1976169d4c51b321be318ade369ccf689849f9f0 # 2026.7.6091757
+      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
       - run: nix develop --command ci-typos
   dco:
     # Developer Certificate of Origin: every commit must carry a Signed-off-by
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
-      - uses: metio/ci/dco@3529dd5a30dd5739b2d80c2acc8882a951760b53 # 2026.8.22144013
+      - uses: metio/ci/dco@03a3682906e5fcfac66ff2ccae9a34241b453dc4 # 2026.9.29150349
   policy:
     # metio org workflow conventions (conftest/Rego from metio/ci): SHA-pinned
     # uses refs, top-level permissions, timeout-minutes on every job, no
@@ -73,7 +73,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/policy-check@3529dd5a30dd5739b2d80c2acc8882a951760b53 # 2026.8.22144013
+      - uses: metio/ci/policy-check@03a3682906e5fcfac66ff2ccae9a34241b453dc4 # 2026.9.29150349
   verify:
     # Single required check covering every job above: mark only this one
     # required in branch protection and new jobs are covered automatically.
