@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: The maven-parent Authors
 SPDX-License-Identifier: 0BSD
- -->
+-->
 
 # maven-parent
 
@@ -38,3 +38,7 @@ job through this flake's devShell.
 See the org-wide [contributor guide](https://github.com/metio/.github/blob/main/CONTRIBUTING.md).
 Every commit needs a `Signed-off-by` trailer (`git commit --signoff`); the DCO
 gate enforces it.
+
+## License
+
+[0BSD](LICENSES/0BSD.txt).
