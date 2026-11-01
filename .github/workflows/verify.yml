@@ -13,7 +13,7 @@ jobs:
     # so its checks read "Maven / build", "Maven / javadoc". This POM has no
     # Java sources of its own, so the javadoc gate has nothing to render.
     name: Maven
-    uses: metio/ci/.github/workflows/maven.yml@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
+    uses: metio/ci/.github/workflows/maven.yml@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
     with:
       javadoc: false
   yaml:
@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
         with:
           registries: github:metio/toolchains
       - run: ci-yaml
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
         with:
           registries: github:metio/toolchains
       # shellcheck rides in the devShell, so actionlint lints run: blocks too.
@@ -40,7 +40,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
         with:
           registries: github:metio/toolchains
       - run: ci-markdown
@@ -49,7 +49,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
         with:
           registries: github:metio/toolchains
       - run: ci-typos
