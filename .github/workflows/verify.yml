@@ -13,7 +13,7 @@ jobs:
     # so its checks read "Maven / build", "Maven / javadoc". This POM has no
     # Java sources of its own, so the javadoc gate has nothing to render.
     name: Maven
-    uses: metio/ci/.github/workflows/maven.yml@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+    uses: metio/ci/.github/workflows/maven.yml@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
     with:
       javadoc: false
   reuse:
@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
         with:
           registries: github:metio/toolchains
       - run: ci-reuse
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
         with:
           registries: github:metio/toolchains
       - run: ci-yaml
@@ -39,7 +39,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
         with:
           registries: github:metio/toolchains
       # shellcheck rides in the devShell, so actionlint lints run: blocks too.
@@ -49,7 +49,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
         with:
           registries: github:metio/toolchains
       - run: ci-markdown
@@ -58,7 +58,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
         with:
           registries: github:metio/toolchains
       - run: ci-typos
@@ -73,7 +73,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
-      - uses: metio/ci/dco@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/dco@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
   policy:
     # metio org workflow conventions (conftest/Rego from metio/ci): SHA-pinned
     # uses refs, top-level permissions, timeout-minutes on every job, no
@@ -82,7 +82,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/ci/policy-check@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+      - uses: metio/ci/policy-check@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # main
   verify:
     # Single required check covering every job above: mark only this one
     # required in branch protection and new jobs are covered automatically.
