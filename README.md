@@ -21,17 +21,19 @@ Declare this project as a parent in your projects:
 
 ## Development
 
-The toolchain is a [nix flake](flake.nix) — JDK and Maven come from `flake.lock`,
-so a local run and CI resolve the same versions:
+[breto](https://github.com/metio/breto) installs the toolchain [`.breto.edn`](.breto.edn)
+names: JDK 17, Maven and the shared lint tools, in the versions the
+[metio/toolchains](https://github.com/metio/toolchains) groups pin, so a local run and
+CI use the same versions:
 
 ```shell
-nix develop --command mvn verify
+eval "$(breto env)"
+mvn verify
 ```
 
-The shared lint gate (`ci-reuse`, `ci-yaml`, `ci-actionlint`, `ci-markdown`,
-`ci-typos`) rides in the same shell. CI runs the build through
-[`metio/ci`](https://github.com/metio/ci)'s reusable Maven pipeline, and every
-job through this flake's devShell.
+`breto run ci-lint` runs the shared lint gate. CI runs the build through
+[`metio/ci`](https://github.com/metio/ci)'s reusable Maven pipeline, and every other
+job installs the same toolchain with the breto action.
 
 ## Contributing
 

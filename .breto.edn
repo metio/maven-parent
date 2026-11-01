@@ -1,0 +1,4 @@
+;; SPDX-FileCopyrightText: The maven-parent Authors
+;; SPDX-License-Identifier: 0BSD
+
+{:packages ["@jdk17" "@maven" "@lint"]}

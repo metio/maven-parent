@@ -21,37 +21,47 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
-      - run: nix develop --command ci-reuse
+      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+        with:
+          registries: github:metio/toolchains
+      - run: ci-reuse
   yaml:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
-      - run: nix develop --command ci-yaml
+      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+        with:
+          registries: github:metio/toolchains
+      - run: ci-yaml
   github-actions:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
+      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+        with:
+          registries: github:metio/toolchains
       # shellcheck rides in the devShell, so actionlint lints run: blocks too.
-      - run: nix develop --command ci-actionlint
+      - run: ci-actionlint
   markdown:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
-      - run: nix develop --command ci-markdown
+      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+        with:
+          registries: github:metio/toolchains
+      - run: ci-markdown
   typos:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-      - uses: metio/nix-devshell@d0c25fdb0d2c08f23bc62c867317a266b6f1a5c1 # 2026.9.12204255
-      - run: nix develop --command ci-typos
+      - uses: metio/ci/breto@f6c5da232253f67486721f46cf4cd5d488189e04 # 2026.10.31224636
+        with:
+          registries: github:metio/toolchains
+      - run: ci-typos
   dco:
     # Developer Certificate of Origin: every commit must carry a Signed-off-by
     # trailer. Skipped for bot-authored PRs (Renovate cannot sign off); a
@@ -67,8 +77,7 @@ jobs:
   policy:
     # metio org workflow conventions (conftest/Rego from metio/ci): SHA-pinned
     # uses refs, top-level permissions, timeout-minutes on every job, no
-    # untrusted ${{ github.event.* }} interpolation in run: blocks, and — since
-    # this repo ships a flake.nix — every tool coming from the devShell.
+    # untrusted ${{ github.event.* }} interpolation in run: blocks.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
