@@ -16,7 +16,7 @@ jobs:
     uses: metio/ci/.github/workflows/maven.yml@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
     with:
       javadoc: false
-  yaml:
+  lint:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -26,46 +26,14 @@ jobs:
       - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
         with:
           registries: github:metio/toolchains
-      - run: ci-yaml
-  github-actions:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
-        with:
-          registries: github:metio/toolchains
-      # shellcheck rides in the devShell, so actionlint lints run: blocks too.
-      - run: ci-actionlint
-  markdown:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
-        with:
-          registries: github:metio/toolchains
-      - run: ci-markdown
-  typos:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: metio/ci/breto@d4a165ac035d1fa1a7aee5b27192d0aed9c7a0b0 # 2026.11.1111906
-        with:
-          registries: github:metio/toolchains
-      - run: ci-typos
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: breto run ci-lint
   verify:
     # Single required check covering every job above: mark only this one
     # required in branch protection and new jobs are covered automatically.
     name: Verify
-    needs: [maven, yaml, github-actions, markdown, typos]
+    needs: [maven, lint]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 10
