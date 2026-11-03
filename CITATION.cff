@@ -9,7 +9,7 @@ authors:
 - family-names: Hoß
   given-names: Sebastian
   email: seb@hoß.de
-url: https://github.com/metio/maven-parent
+url: https://github.com/metio/maven-parent/
 license: 0BSD
 keywords:
   - java
