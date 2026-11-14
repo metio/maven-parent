@@ -14,7 +14,7 @@ jobs:
     # so its checks read "Maven / build", "Maven / javadoc". This POM has no
     # Java sources of its own, so the javadoc gate has nothing to render.
     name: Maven
-    uses: metio/ci/.github/workflows/maven.yml@2c9b3ef3bf280e85541853d686e261dd7b92eac9 # 2026.11.2090039
+    uses: metio/ci/.github/workflows/maven.yml@00adafd0fe1924f57325d9dd264d5d731fb099ad # 2026.11.4082509
     with:
       javadoc: false
   lint:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: metio/ci/breto@2c9b3ef3bf280e85541853d686e261dd7b92eac9 # 2026.11.2090039
+      - uses: metio/ci/breto@00adafd0fe1924f57325d9dd264d5d731fb099ad # 2026.11.4082509
         with:
           registries: github:metio/toolchains
       - env:
