@@ -145,7 +145,7 @@
     <version.sign-m-p>1.2.0</version.sign-m-p>
     <version.central-publishing-m-p>0.12.0</version.central-publishing-m-p>
     <version.m-enforcer-p>3.7.0</version.m-enforcer-p>
-    <version.versions-m-p>2.25.1</version.versions-m-p>
+    <version.versions-m-p>2.25.2</version.versions-m-p>
     <version.m-artifact-p>3.7.0</version.m-artifact-p>
     <version.m-pmd-p>3.28.0</version.m-pmd-p>
     <version.m-javadoc-p>3.12.0</version.m-javadoc-p>
@@ -165,7 +165,7 @@
     <version.flatten-m-p>1.9.0</version.flatten-m-p>
     <version.templating-m-p>3.2.0</version.templating-m-p>
     <version.native-image-m-p>21.2.0</version.native-image-m-p>
-    <version.native-m-p>1.1.18</version.native-m-p>
+    <version.native-m-p>1.1.19</version.native-m-p>
     <version.appassembler-m-p>2.1.0</version.appassembler-m-p>
     <version.m-assembly-p>3.8.0</version.m-assembly-p>
     <version.checksum-m-p>1.11</version.checksum-m-p>
